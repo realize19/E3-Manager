@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hujiaqi.e3mall.mapper.TbOrderItemDao">
+
+    <resultMap type="cn.hujiaqi.e3mall.pojo.TbOrderItem" id="TbOrderItemMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="itemId" column="item_id" jdbcType="VARCHAR"/>
+        <result property="orderId" column="order_id" jdbcType="VARCHAR"/>
+        <result property="num" column="num" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="INTEGER"/>
+        <result property="totalFee" column="total_fee" jdbcType="INTEGER"/>
+        <result property="picPath" column="pic_path" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TbOrderItemMap">
+        select
+          id, item_id, order_id, num, title, price, total_fee, pic_path
+        from e3mall.tb_order_item
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TbOrderItemMap">
+        select
+          id, item_id, order_id, num, title, price, total_fee, pic_path
+        from e3mall.tb_order_item
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TbOrderItemMap">
+        select
+        id, item_id, order_id, num, title, price, total_fee, pic_path
+        from e3mall.tb_order_item
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="itemId != null and itemId != ''">
+                and item_id = #{itemId}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                and order_id = #{orderId}
+            </if>
+            <if test="num != null">
+                and num = #{num}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="totalFee != null">
+                and total_fee = #{totalFee}
+            </if>
+            <if test="picPath != null and picPath != ''">
+                and pic_path = #{picPath}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into e3mall.tb_order_item(item_id, order_id, num, title, price, total_fee, pic_path)
+        values (#{itemId}, #{orderId}, #{num}, #{title}, #{price}, #{totalFee}, #{picPath})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into e3mall.tb_order_item(item_id, order_id, num, title, price, total_fee, pic_path)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.itemId}, #{entity.orderId}, #{entity.num}, #{entity.title}, #{entity.price}, #{entity.totalFee},
+            #{entity.picPath})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into e3mall.tb_order_item(item_id, order_id, num, title, price, total_fee, pic_path)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.itemId}, #{entity.orderId}, #{entity.num}, #{entity.title}, #{entity.price}, #{entity.totalFee},
+            #{entity.picPath})
+        </foreach>
+        on duplicate key update
+        item_id = values(item_id) , order_id = values(order_id) , num = values(num) , title = values(title) , price =
+        values(price) , total_fee = values(total_fee) , pic_path = values(pic_path)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update e3mall.tb_order_item
+        <set>
+            <if test="itemId != null and itemId != ''">
+                item_id = #{itemId},
+            </if>
+            <if test="orderId != null and orderId != ''">
+                order_id = #{orderId},
+            </if>
+            <if test="num != null">
+                num = #{num},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="totalFee != null">
+                total_fee = #{totalFee},
+            </if>
+            <if test="picPath != null and picPath != ''">
+                pic_path = #{picPath},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from e3mall.tb_order_item where id = #{id}
+    </delete>
+
+</mapper>

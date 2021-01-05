@@ -45,6 +45,8 @@
     </properties>
 
         <dependencyManagement>
+
+            <dependencies>
             <!-- 时间操作组件 -->
 
             <!-- Apache工具组件 -->
@@ -225,7 +227,7 @@
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
             </dependency>
-
+            </dependencies>
         </dependencyManagement>
 
     <build>

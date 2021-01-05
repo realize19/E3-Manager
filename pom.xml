@@ -44,7 +44,7 @@
         <quartz.version>2.2.2</quartz.version>
     </properties>
 
-        <dependencies>
+        <dependencyManagement>
             <!-- 时间操作组件 -->
 
             <!-- Apache工具组件 -->
@@ -226,7 +226,7 @@
                 <version>${freemarker.version}</version>
             </dependency>
 
-        </dependencies>
+        </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
